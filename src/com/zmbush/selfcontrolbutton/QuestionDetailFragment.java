@@ -3,6 +3,7 @@ package com.zmbush.selfcontrolbutton;
 import java.util.Random;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +39,9 @@ public class QuestionDetailFragment extends Fragment {
 	}
 	
 	private Random rand = new Random();
+	private Handler h = new Handler();
+	private Runnable r;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,18 +73,30 @@ public class QuestionDetailFragment extends Fragment {
 	}
 	
 	public void makeDecision() {
-		ImageView no = (ImageView)this.getView().findViewById(R.id.no_image);
-		ImageView yes = (ImageView)this.getView().findViewById(R.id.yes_image);
+		this.makeDecision(0);
+	}
+	
+	public void makeDecision(int delay) {
+		final ImageView no = (ImageView)this.getView().findViewById(R.id.no_image);
+		final ImageView yes = (ImageView)this.getView().findViewById(R.id.yes_image);
 		
-		int selection = rand.nextInt(10);
+		final int selection = rand.nextInt(10);
 		
-		Log.i("QDF", "SElection " + selection);
-		if (selection == 0) {
-			no.setVisibility(View.GONE);
-			yes.setVisibility(View.VISIBLE);
-		} else {
-			no.setVisibility(View.VISIBLE);
-			yes.setVisibility(View.GONE);
-		}
+		no.setVisibility(View.GONE);
+		yes.setVisibility(View.GONE);
+		
+		h.removeCallbacks(r);
+
+		r = new Runnable() {
+			@Override
+			public void run() {
+				if (selection == 0) {
+					yes.setVisibility(View.VISIBLE);
+				} else {
+					no.setVisibility(View.VISIBLE);
+				}
+			}
+		};
+		h.postDelayed(r, delay);
 	}
 }

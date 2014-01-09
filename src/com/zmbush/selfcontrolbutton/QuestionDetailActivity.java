@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 /**
@@ -16,7 +18,8 @@ import android.view.MenuItem;
  * a {@link QuestionDetailFragment}.
  */
 public class QuestionDetailActivity extends FragmentActivity {
-
+	private QuestionDetailFragment fragment;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,11 +43,19 @@ public class QuestionDetailActivity extends FragmentActivity {
 			Bundle arguments = new Bundle();
 			arguments.putString(QuestionDetailFragment.ARG_ITEM_ID, getIntent()
 					.getStringExtra(QuestionDetailFragment.ARG_ITEM_ID));
-			QuestionDetailFragment fragment = new QuestionDetailFragment();
+			fragment = new QuestionDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.question_detail_container, fragment).commit();
 		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main, menu);
+	    return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
@@ -60,6 +71,9 @@ public class QuestionDetailActivity extends FragmentActivity {
 			//
 			NavUtils.navigateUpTo(this, new Intent(this,
 					QuestionListActivity.class));
+			return true;
+		case R.id.refresh:
+			fragment.makeDecision(500);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
