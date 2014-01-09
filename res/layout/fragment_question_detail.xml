@@ -1,0 +1,25 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    tools:context=".QuestionDetailFragment" >
+
+    <ImageView
+        android:id="@+id/yes_image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:contentDescription="@+strings/yes"
+        android:scaleType="centerInside"
+        android:src="@drawable/yes"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/no_image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:contentDescription="@+strings/no"
+        android:scaleType="centerInside"
+        android:src="@drawable/no" />
+    
+</FrameLayout>
