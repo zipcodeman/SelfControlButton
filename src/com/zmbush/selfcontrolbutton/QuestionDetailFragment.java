@@ -2,6 +2,7 @@ package com.zmbush.selfcontrolbutton;
 
 import java.util.Random;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.zmbush.selfcontrolbutton.dummy.DummyContent;
+import com.zmbush.selfcontrolbutton.data.QuestionContent;
 
 /**
  * A fragment representing a single Question detail screen. This fragment is
@@ -29,11 +30,12 @@ public class QuestionDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private QuestionContent.Question mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
+     * @param questionDetailActivity 
      */
     public QuestionDetailFragment() {
     }
@@ -50,8 +52,10 @@ public class QuestionDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(
+            mItem = QuestionContent.ITEM_MAP.get(getArguments().getString(
                     ARG_ITEM_ID));
+            
+            this.getActivity().getActionBar().setTitle(mItem.toString());
         }
     }
 
@@ -72,26 +76,29 @@ public class QuestionDetailFragment extends Fragment {
     }
 
     public void makeDecision() {
-        this.makeDecision(0);
+        this.makeDecision(1000);
     }
 
     public void makeDecision(int delay) {
-        final ImageView no = (ImageView) this.getView().findViewById(
-                R.id.no_image);
-        final ImageView yes = (ImageView) this.getView().findViewById(
-                R.id.yes_image);
+        final View no = this.getView().findViewById(R.id.no_image);
+        final View yes = this.getView().findViewById(R.id.yes_image);
+        final View loading = this.getView().findViewById(R.id.loading);
 
-        final int selection = rand.nextInt(10);
+        
+        final boolean ans = this.mItem.getAnswer();
+        this.getActivity().getActionBar().setTitle(mItem.toString());
 
         no.setVisibility(View.GONE);
         yes.setVisibility(View.GONE);
+        loading.setVisibility(View.VISIBLE);
 
         h.removeCallbacks(r);
 
         r = new Runnable() {
             @Override
             public void run() {
-                if (selection == 0) {
+                loading.setVisibility(View.GONE);
+                if (ans) {
                     yes.setVisibility(View.VISIBLE);
                 } else {
                     no.setVisibility(View.VISIBLE);
@@ -99,5 +106,9 @@ public class QuestionDetailFragment extends Fragment {
             }
         };
         h.postDelayed(r, delay);
+    }
+
+    public CharSequence getTitle() {
+        return mItem.question;
     }
 }

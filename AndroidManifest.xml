@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.zmbush.selfcontrolbutton.QuestionListActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +25,7 @@
         <activity
             android:name="com.zmbush.selfcontrolbutton.QuestionDetailActivity"
             android:label="@string/title_question_detail"
-            android:parentActivityName=".QuestionListActivity" >
+            android:parentActivityName=".QuestionListActivity" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".QuestionListActivity" />

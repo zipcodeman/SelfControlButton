@@ -18,7 +18,7 @@ import android.view.MenuItem;
  * a {@link QuestionDetailFragment}.
  */
 public class QuestionDetailActivity extends FragmentActivity {
-    private QuestionDetailFragment fragment;
+    private static QuestionDetailFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class QuestionDetailActivity extends FragmentActivity {
         inflater.inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -73,7 +73,7 @@ public class QuestionDetailActivity extends FragmentActivity {
                         QuestionListActivity.class));
                 return true;
             case R.id.refresh:
-                fragment.makeDecision(500);
+                fragment.makeDecision(1000);
                 return true;
         }
         return super.onOptionsItemSelected(item);
