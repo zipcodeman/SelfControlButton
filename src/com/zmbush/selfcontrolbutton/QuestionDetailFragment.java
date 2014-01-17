@@ -7,7 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zmbush.selfcontrolbutton.data.QuestionContent;
+import com.activeandroid.Model;
+import com.zmbush.selfcontrolbutton.db.Question;
 
 /**
  * A fragment representing a single Question detail screen. This fragment is
@@ -24,7 +25,7 @@ public class QuestionDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private QuestionContent.Question mItem;
+    private Question mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -45,10 +46,13 @@ public class QuestionDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = QuestionContent.ITEM_MAP.get(getArguments().getString(
-                    ARG_ITEM_ID));
+            mItem = Model.load(Question.class, getArguments().getLong(ARG_ITEM_ID));
             
-            this.getActivity().getActionBar().setTitle(mItem.toString());
+            if (mItem != null) {
+                this.getActivity().getActionBar().setTitle(mItem.toString());
+            } else {
+                this.getActivity().getActionBar().setTitle("NOT FOUND");
+            }
         }
     }
 

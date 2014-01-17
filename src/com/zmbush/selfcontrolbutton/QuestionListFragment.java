@@ -3,11 +3,15 @@ package com.zmbush.selfcontrolbutton;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.zmbush.selfcontrolbutton.data.QuestionContent;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.zmbush.selfcontrolbutton.db.Question;
 
 /**
  * A list fragment representing a list of Questions. This fragment also supports
@@ -46,7 +50,7 @@ public class QuestionListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(String id);
+        public void onItemSelected(Long id);
     }
 
     /**
@@ -55,8 +59,7 @@ public class QuestionListFragment extends ListFragment {
      */
     private static Callbacks sDummyCallbacks = new Callbacks() {
                                                  @Override
-                                                 public void onItemSelected(
-                                                         String id) {
+                                                 public void onItemSelected(Long id) {
                                                  }
                                              };
 
@@ -70,11 +73,13 @@ public class QuestionListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
+        List<Question> questions = Question.getAll();
+        
         // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<QuestionContent.Question>(getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1, QuestionContent.ITEMS));
+        setListAdapter(new ArrayAdapter<Question>(getActivity(),
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1, questions));
     }
 
     @Override
@@ -117,7 +122,7 @@ public class QuestionListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(QuestionContent.ITEMS.get(position).getQuestion());
+        mCallbacks.onItemSelected(Question.getAll().get(position).getId());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.zmbush.selfcontrolbutton;
 
+import com.zmbush.selfcontrolbutton.db.Question;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -32,6 +34,9 @@ public class QuestionListActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        Question.getAll();
+        
         setContentView(R.layout.activity_question_list);
 
         if (findViewById(R.id.question_detail_container) != null) {
@@ -56,13 +61,13 @@ public class QuestionListActivity extends FragmentActivity implements
      * that the item with the given ID was selected.
      */
     @Override
-    public void onItemSelected(String id) {
+    public void onItemSelected(Long id) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(QuestionDetailFragment.ARG_ITEM_ID, id);
+            arguments.putLong(QuestionDetailFragment.ARG_ITEM_ID, id);
             QuestionDetailFragment fragment = new QuestionDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
