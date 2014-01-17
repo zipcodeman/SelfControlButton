@@ -1,17 +1,11 @@
 package com.zmbush.selfcontrolbutton;
 
-import java.util.Random;
-
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.zmbush.selfcontrolbutton.data.QuestionContent;
 
@@ -40,7 +34,6 @@ public class QuestionDetailFragment extends Fragment {
     public QuestionDetailFragment() {
     }
 
-    private Random   rand = new Random();
     private Handler  h    = new Handler();
     private Runnable r;
 
@@ -109,6 +102,6 @@ public class QuestionDetailFragment extends Fragment {
     }
 
     public CharSequence getTitle() {
-        return mItem.question;
+        return mItem.getQuestion();
     }
 }

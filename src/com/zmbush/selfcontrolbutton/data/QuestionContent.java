@@ -11,7 +11,7 @@ public class QuestionContent {
     public static Map<String, Question> ITEM_MAP = new HashMap<String, Question>();
     
     static {
-        addItem(new Question("Should I have candy?", 1.0, 0.01));
+        addItem(new Question("Should I have candy?", 1.0, 0.80, 0.1));
     }
     
     private static void addItem(Question question) {
@@ -20,29 +20,38 @@ public class QuestionContent {
     }
     
     public static class Question {
-        public String question;
-        public double startingProbability;
-        public double probabilityDecrease;
+        private String question;
+        private double probability;
+        private double probabilityDecrease;
+        private double targetProbability;
         
         private Random   rand = new Random();
         
-        public Question(String question, double start, double decrease) {
+        public Question(String question, double start, double decrease, double target) {
             this.question = question;
-            this.startingProbability = start;
+            this.probability = start;
             this.probabilityDecrease = decrease;
+            this.targetProbability = target;
         }
         
         public String toString() {
-            return this.question + this.startingProbability;
+            return this.question + this.probability;
+        }
+        
+        public String getQuestion() {
+            return this.question;
         }
         
         public boolean getAnswer() {
             final double selection = rand.nextDouble();
             
-            boolean answer = (selection <= startingProbability);
+            boolean answer = (selection <= probability);
             
-            if (answer) {
-                this.startingProbability -= this.probabilityDecrease;
+            if (answer && probability > targetProbability) {
+                this.probability *= this.probabilityDecrease;
+                if (probability < targetProbability) {
+                    probability = targetProbability;
+                }
             }
             
             return answer;
